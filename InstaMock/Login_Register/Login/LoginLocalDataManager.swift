@@ -11,4 +11,10 @@ import Foundation
 class LoginLocalDataManager:LoginLocalDataManagerInputProtocol {
     
     
+    func updateUserDefaultsLoginStatus() {
+        
+        UserDefaults.standard.set(true, forKey: "isLoggedIn")
+    }
+    
+    
 }

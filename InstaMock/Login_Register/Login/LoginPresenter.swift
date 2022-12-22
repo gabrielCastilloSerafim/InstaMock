@@ -18,11 +18,28 @@ class LoginPresenter  {
 }
 
 extension LoginPresenter: LoginPresenterProtocol {
+    
     // TODO: implement presenter methods
     func viewDidLoad() {
+    }
+    
+    func userTappedLogin(email: String?, password: String?) {
+
+        if email != "", password != "" {
+            interactor?.logUserIn(email: email!, passWord: password!)
+        } else {
+            view?.showMissingFieldAlert()
+        }
+        
     }
 }
 
 extension LoginPresenter: LoginInteractorOutputProtocol {
+    
     // TODO: implement interactor output methods
+    
+    func didLogUserIn() {
+        
+        wireFrame?.goToTabBarController(fromVC: view as! LoginView)
+    }
 }

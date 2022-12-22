@@ -75,10 +75,20 @@ class LoginView: UIViewController {
     
     @objc private func loginButtonTapped() {
         
+        presenter?.userTappedLogin(email: emailField.text, password: passWordField.text)
     }
     
 }
 
 extension LoginView: LoginViewProtocol {
+    
     // TODO: implement view output methods
+    
+    func showMissingFieldAlert() {
+        
+        let alertController = UIAlertController(title: "Error", message: "Please fill all field in order to proceed", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: .default))
+        
+        self.present(alertController, animated: true)
+    }
 }

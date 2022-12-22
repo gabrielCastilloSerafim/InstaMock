@@ -12,11 +12,15 @@ import UIKit
 protocol LoginViewProtocol: AnyObject {
     // PRESENTER -> VIEW
     var presenter: LoginPresenterProtocol? { get set }
+    
+    func showMissingFieldAlert()
 }
 
 protocol LoginWireFrameProtocol: AnyObject {
     // PRESENTER -> WIREFRAME
     static func createLoginModule() -> UIViewController
+    
+    func goToTabBarController(fromVC: LoginView)
 }
 
 protocol LoginPresenterProtocol: AnyObject {
@@ -26,10 +30,13 @@ protocol LoginPresenterProtocol: AnyObject {
     var wireFrame: LoginWireFrameProtocol? { get set }
     
     func viewDidLoad()
+    func userTappedLogin(email: String?, password: String?)
 }
 
 protocol LoginInteractorOutputProtocol: AnyObject {
-// INTERACTOR -> PRESENTER
+    // INTERACTOR -> PRESENTER
+    
+    func didLogUserIn()
 }
 
 protocol LoginInteractorInputProtocol: AnyObject {
@@ -37,6 +44,8 @@ protocol LoginInteractorInputProtocol: AnyObject {
     var presenter: LoginInteractorOutputProtocol? { get set }
     var localDatamanager: LoginLocalDataManagerInputProtocol? { get set }
     var remoteDatamanager: LoginRemoteDataManagerInputProtocol? { get set }
+    
+    func logUserIn(email: String, passWord: String)
 }
 
 protocol LoginDataManagerInputProtocol: AnyObject {
@@ -54,4 +63,6 @@ protocol LoginRemoteDataManagerOutputProtocol: AnyObject {
 
 protocol LoginLocalDataManagerInputProtocol: AnyObject {
     // INTERACTOR -> LOCALDATAMANAGER
+    
+    func updateUserDefaultsLoginStatus()
 }

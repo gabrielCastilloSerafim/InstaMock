@@ -32,4 +32,14 @@ class LoginWireFrame: LoginWireFrameProtocol {
         return view
     }
     
+    func goToTabBarController(fromVC: LoginView) {
+        
+        let UITabBarController = UITabBarController()
+        let appTabController = AppTabController()
+        appTabController.start(with: UITabBarController)
+        UITabBarController.modalPresentationStyle = .fullScreen
+        
+        fromVC.present(UITabBarController, animated: false)
+    }
+    
 }
