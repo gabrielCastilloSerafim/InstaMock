@@ -52,6 +52,7 @@
 		536FBE9D2953208000275DD2 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536FBE962953208000275DD2 /* ProfileView.swift */; };
 		536FBE9E2953208000275DD2 /* ProfileRemoteDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536FBE972953208000275DD2 /* ProfileRemoteDataManager.swift */; };
 		536FBE9F2953208000275DD2 /* ProfileWireFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536FBE982953208000275DD2 /* ProfileWireFrame.swift */; };
+		53DDAAC62954E55500B82DBA /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DDAAC52954E55400B82DBA /* FeedTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -98,6 +99,7 @@
 		536FBE962953208000275DD2 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		536FBE972953208000275DD2 /* ProfileRemoteDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRemoteDataManager.swift; sourceTree = "<group>"; };
 		536FBE982953208000275DD2 /* ProfileWireFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileWireFrame.swift; sourceTree = "<group>"; };
+		53DDAAC52954E55400B82DBA /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +204,7 @@
 				536FBE882953206F00275DD2 /* FeedView.swift */,
 				536FBE892953206F00275DD2 /* FeedRemoteDataManager.swift */,
 				536FBE8A2953206F00275DD2 /* FeedWireFrame.swift */,
+				53DDAAC52954E55400B82DBA /* FeedTableViewCell.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -301,6 +304,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				53DDAAC62954E55500B82DBA /* FeedTableViewCell.swift in Sources */,
 				536FBE8F2953206F00275DD2 /* FeedView.swift in Sources */,
 				536FBE432953006900275DD2 /* AppCoordinator.swift in Sources */,
 				536FBE9C2953208000275DD2 /* ProfileInteractor.swift in Sources */,
