@@ -36,5 +36,13 @@ class ProfileWireFrame: ProfileWireFrameProtocol {
         return navController
     }
     
+    func goToLoginView(fromVC: ProfileView) {
+        
+        let loginRegisterVC = Login_RegisterWireFrame.createLogin_RegisterModule()
+        loginRegisterVC.modalPresentationStyle = .fullScreen
+        
+        fromVC.present(loginRegisterVC, animated: false)
+    }
+    
     
 }

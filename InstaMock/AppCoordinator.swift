@@ -6,14 +6,13 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class AppCoordinator {
     
     func firstScreen() -> UIViewController {
         
         let defaults = UserDefaults.standard
-        
-        //defaults.set(nil, forKey: "isLoggedIn")
         
         if defaults.value(forKey: "isLoggedIn") == nil {
             

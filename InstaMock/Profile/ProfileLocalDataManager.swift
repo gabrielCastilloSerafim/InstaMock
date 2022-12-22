@@ -10,5 +10,9 @@ import Foundation
 
 class ProfileLocalDataManager:ProfileLocalDataManagerInputProtocol {
     
+    func changeUserDefaultsLoginStatus() {
+        
+        UserDefaults.standard.set(nil, forKey: "isLoggedIn")
+    }
     
 }

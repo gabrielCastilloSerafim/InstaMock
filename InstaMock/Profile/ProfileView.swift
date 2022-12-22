@@ -22,11 +22,12 @@ class ProfileView: UIViewController {
         view.backgroundColor = .white
         title = "Profile"
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "LogOut", style: .plain, target: self, action: #selector(logOutTapped))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Log Out", style: .plain, target: self, action: #selector(logOutTapped))
     }
     
     @objc private func logOutTapped() {
-        print("LogOut Tapped")
+        
+        presenter?.logOutTapped()
     }
 }
 

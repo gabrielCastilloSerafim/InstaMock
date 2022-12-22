@@ -17,6 +17,8 @@ protocol ProfileViewProtocol: AnyObject {
 protocol ProfileWireFrameProtocol: AnyObject {
     // PRESENTER -> WIREFRAME
     static func createProfileModule() -> UIViewController
+    
+    func goToLoginView(fromVC: ProfileView)
 }
 
 protocol ProfilePresenterProtocol: AnyObject {
@@ -26,10 +28,13 @@ protocol ProfilePresenterProtocol: AnyObject {
     var wireFrame: ProfileWireFrameProtocol? { get set }
     
     func viewDidLoad()
+    func logOutTapped()
 }
 
 protocol ProfileInteractorOutputProtocol: AnyObject {
 // INTERACTOR -> PRESENTER
+    
+    func didLogUserOut()
 }
 
 protocol ProfileInteractorInputProtocol: AnyObject {
@@ -37,6 +42,8 @@ protocol ProfileInteractorInputProtocol: AnyObject {
     var presenter: ProfileInteractorOutputProtocol? { get set }
     var localDatamanager: ProfileLocalDataManagerInputProtocol? { get set }
     var remoteDatamanager: ProfileRemoteDataManagerInputProtocol? { get set }
+    
+    func performUserLogOut()
 }
 
 protocol ProfileDataManagerInputProtocol: AnyObject {
@@ -54,4 +61,6 @@ protocol ProfileRemoteDataManagerOutputProtocol: AnyObject {
 
 protocol ProfileLocalDataManagerInputProtocol: AnyObject {
     // INTERACTOR -> LOCALDATAMANAGER
+    
+    func changeUserDefaultsLoginStatus()
 }

@@ -18,11 +18,22 @@ class ProfilePresenter  {
 }
 
 extension ProfilePresenter: ProfilePresenterProtocol {
+
     // TODO: implement presenter methods
     func viewDidLoad() {
+    }
+    
+    func logOutTapped() {
+        
+        interactor?.performUserLogOut()
     }
 }
 
 extension ProfilePresenter: ProfileInteractorOutputProtocol {
+    
     // TODO: implement interactor output methods
+    
+    func didLogUserOut() {
+        wireFrame?.goToLoginView(fromVC: view as! ProfileView)
+    }
 }

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 class ProfileInteractor: ProfileInteractorInputProtocol {
 
@@ -14,6 +15,19 @@ class ProfileInteractor: ProfileInteractorInputProtocol {
     weak var presenter: ProfileInteractorOutputProtocol?
     var localDatamanager: ProfileLocalDataManagerInputProtocol?
     var remoteDatamanager: ProfileRemoteDataManagerInputProtocol?
+    
+    func performUserLogOut() {
+        
+        do {
+            try FirebaseAuth.Auth.auth().signOut()
+        } catch {
+            print("Error signing out: \(error.localizedDescription)")
+            return
+        }
+        localDatamanager?.changeUserDefaultsLoginStatus()
+        presenter?.didLogUserOut()
+    }
+    
 
 }
 
