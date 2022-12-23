@@ -24,6 +24,7 @@ class RegisterInteractor: RegisterInteractorInputProtocol {
             guard error == nil else { print("Error in registration: \(error!.localizedDescription)"); return }
             
             self?.localDatamanager?.updateUserDefaultsLogInStatus()
+            self?.localDatamanager?.saveUserDataToDefaults(name: name, Email: email)
             self?.remoteDatamanager?.createUserNodeInRemoteDB(with: name, email)
             self?.remoteDatamanager?.uploadProfilePictureToFireStore(image: profileImage, email: email)
         }

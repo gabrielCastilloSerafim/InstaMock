@@ -6,7 +6,7 @@
 //  
 //
 
-import Foundation
+import UIKit
 
 class FeedPresenter  {
     
@@ -21,8 +21,29 @@ extension FeedPresenter: FeedPresenterProtocol {
     // TODO: implement presenter methods
     func viewDidLoad() {
     }
+    
+    func addPostTapeed() {
+        view?.showImagePicker()
+    }
+    
+    func userDidSelectImage(image: UIImage?) {
+        
+        guard let image = image else { print("Error in selected image"); return }
+        
+        interactor?.createPost(with: image)
+        view?.showSpinner()
+    }
+    
+    func userDidCancelImageSelection() {
+        view?.dismissImagePicker()
+    }
 }
 
 extension FeedPresenter: FeedInteractorOutputProtocol {
     // TODO: implement interactor output methods
+    
+    func uploadedPost() {
+        view?.dismissSpinner()
+        view?.dismissImagePicker()
+    }
 }

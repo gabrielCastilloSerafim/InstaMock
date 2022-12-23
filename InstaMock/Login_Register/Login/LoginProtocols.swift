@@ -55,14 +55,19 @@ protocol LoginDataManagerInputProtocol: AnyObject {
 protocol LoginRemoteDataManagerInputProtocol: AnyObject {
     // INTERACTOR -> REMOTEDATAMANAGER
     var remoteRequestHandler: LoginRemoteDataManagerOutputProtocol? { get set }
+    
+    func getUserPersonalInfo(for email: String)
 }
 
 protocol LoginRemoteDataManagerOutputProtocol: AnyObject {
     // REMOTEDATAMANAGER -> INTERACTOR
+    
+    func receivedUserInfo(name: String, email: String)
 }
 
 protocol LoginLocalDataManagerInputProtocol: AnyObject {
     // INTERACTOR -> LOCALDATAMANAGER
     
     func updateUserDefaultsLoginStatus()
+    func saveUserDataToDefaults(name: String, Email: String)
 }

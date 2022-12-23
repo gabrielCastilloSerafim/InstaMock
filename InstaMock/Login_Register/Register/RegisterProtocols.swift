@@ -79,4 +79,5 @@ protocol RegisterLocalDataManagerInputProtocol: AnyObject {
     // INTERACTOR -> LOCALDATAMANAGER
     
     func updateUserDefaultsLogInStatus()
+    func saveUserDataToDefaults(name: String, Email: String)
 }

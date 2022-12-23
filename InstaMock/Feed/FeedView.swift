@@ -8,12 +8,15 @@
 
 import Foundation
 import UIKit
+import JGProgressHUD
 
 class FeedView: UIViewController {
 
     // MARK: Properties
     var presenter: FeedPresenterProtocol?
     private let tableView = UITableView()
+    private let imagePicker = UIImagePickerController()
+    private let spinner = JGProgressHUD(style: .dark)
 
     // MARK: Lifecycle
 
@@ -30,6 +33,9 @@ class FeedView: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addButtonTapped))
         view.addSubview(tableView)
         
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        
         tableView.dataSource = self
         tableView.register(FeedTableViewCell.self, forCellReuseIdentifier: FeedTableViewCell.feedCellID)
         tableView.separatorStyle = .none
@@ -44,7 +50,8 @@ class FeedView: UIViewController {
     }
     
     @objc private func addButtonTapped() {
-        print("Add Tapped")
+        
+        presenter?.addPostTapeed()
     }
 }
 
@@ -64,10 +71,45 @@ extension FeedView: UITableViewDataSource {
         
         return cell
     }
+}
+
+//MARK: - UIImagePickerControllerDelegate & UINavigationControllerDelegate
+
+extension FeedView: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        let image = info[.editedImage] as? UIImage
+        
+        presenter?.userDidSelectImage(image: image)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        presenter?.userDidCancelImageSelection()
+    }
 }
 
 extension FeedView: FeedViewProtocol {
     // TODO: implement view output methods
+    
+    func showImagePicker() {
+        self.present(imagePicker, animated: true)
+    }
+    
+    func dismissImagePicker() {
+        imagePicker.dismiss(animated: true)
+    }
+    
+    func showSpinner() {
+        DispatchQueue.main.async {
+            self.spinner.show(in: self.imagePicker.view, animated: true)
+        }
+    }
+    
+    func dismissSpinner() {
+        DispatchQueue.main.async {
+            self.spinner.dismiss(animated: true)
+        }
+    }
 }
 

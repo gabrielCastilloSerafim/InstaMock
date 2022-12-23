@@ -23,11 +23,17 @@ class LoginInteractor: LoginInteractorInputProtocol {
             guard error == nil else { print("Error in login: \(error!.localizedDescription)"); return }
             
             self?.localDatamanager?.updateUserDefaultsLoginStatus()
-            self?.presenter?.didLogUserIn()
+            self?.remoteDatamanager?.getUserPersonalInfo(for: email)
         }
     }
 }
 
 extension LoginInteractor: LoginRemoteDataManagerOutputProtocol {
     // TODO: Implement use case methods
+    
+    func receivedUserInfo(name: String, email: String) {
+        
+        self.localDatamanager?.saveUserDataToDefaults(name: name, Email: email)
+        self.presenter?.didLogUserIn()
+    }
 }
