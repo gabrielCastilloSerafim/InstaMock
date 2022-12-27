@@ -26,11 +26,17 @@ class FeedRemoteDataManager:FeedRemoteDataManagerInputProtocol {
             self?.storage.child("images/\(postID).png").downloadURL { url, error in
                 guard let url = url?.absoluteString else { print("error getting post image download URL"); return }
                 
-                //Write post info to fireStore database
+                //Write post info to fireStore database posts node
                 let postDict = ["postID":postID, "name":name, "email":email, "imageDownloadURL":url]
                 self?.database.child("posts/\(postID)").setValue(postDict) { error, _ in
                     guard error == nil else { print("Error saving post info to database"); return }
-                    self?.remoteRequestHandler?.finishedUploadingPost()
+                    
+                    //Write the post id to the user's posts node
+                    let postIdDict = ["\(postID)":postID]
+                    self?.database.child("\(email.formatted)/posts").updateChildValues(postIdDict) { error, _ in
+                        
+                        self?.remoteRequestHandler?.finishedUploadingPost()
+                    }
                 }
             }
         }

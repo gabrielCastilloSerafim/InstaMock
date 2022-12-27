@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		533C6F802955CC9E007D9E46 /* ProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533C6F7F2955CC9E007D9E46 /* ProfileCollectionViewCell.swift */; };
+		533C6F8229564B3C007D9E46 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533C6F8129564B3C007D9E46 /* Profile.swift */; };
+		533C6F8529565D7E007D9E46 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 533C6F8429565D7E007D9E46 /* SDWebImage */; };
 		5362685B2953AF10002F6728 /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 5362685A2953AF10002F6728 /* JGProgressHUD */; };
 		5362685D2954B89C002F6728 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5362685C2954B89C002F6728 /* Extensions.swift */; };
 		536FBE242952F83600275DD2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536FBE232952F83600275DD2 /* AppDelegate.swift */; };
@@ -53,11 +55,13 @@
 		536FBE9D2953208000275DD2 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536FBE962953208000275DD2 /* ProfileView.swift */; };
 		536FBE9E2953208000275DD2 /* ProfileRemoteDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536FBE972953208000275DD2 /* ProfileRemoteDataManager.swift */; };
 		536FBE9F2953208000275DD2 /* ProfileWireFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536FBE982953208000275DD2 /* ProfileWireFrame.swift */; };
+		5378595B295AF9B200E6CEC2 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 5378595A295AF9B200E6CEC2 /* SkeletonView */; };
 		53DDAAC62954E55500B82DBA /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DDAAC52954E55400B82DBA /* FeedTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		533C6F7F2955CC9E007D9E46 /* ProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewCell.swift; sourceTree = "<group>"; };
+		533C6F8129564B3C007D9E46 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		5362685C2954B89C002F6728 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		536FBE202952F83500275DD2 /* InstaMock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstaMock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		536FBE232952F83600275DD2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -113,6 +117,8 @@
 				536FBE3D2952FACD00275DD2 /* FirebaseDatabase in Frameworks */,
 				536FBE3B2952FACD00275DD2 /* FirebaseAuth in Frameworks */,
 				536FBE3F2952FACD00275DD2 /* FirebaseStorage in Frameworks */,
+				5378595B295AF9B200E6CEC2 /* SkeletonView in Frameworks */,
+				533C6F8529565D7E007D9E46 /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,6 +228,7 @@
 				533C6F7F2955CC9E007D9E46 /* ProfileCollectionViewCell.swift */,
 				536FBE972953208000275DD2 /* ProfileRemoteDataManager.swift */,
 				536FBE982953208000275DD2 /* ProfileWireFrame.swift */,
+				533C6F8129564B3C007D9E46 /* Profile.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -247,6 +254,8 @@
 				536FBE3C2952FACD00275DD2 /* FirebaseDatabase */,
 				536FBE3E2952FACD00275DD2 /* FirebaseStorage */,
 				5362685A2953AF10002F6728 /* JGProgressHUD */,
+				533C6F8429565D7E007D9E46 /* SDWebImage */,
+				5378595A295AF9B200E6CEC2 /* SkeletonView */,
 			);
 			productName = InstaMock;
 			productReference = 536FBE202952F83500275DD2 /* InstaMock.app */;
@@ -279,6 +288,8 @@
 			packageReferences = (
 				536FBE392952FACD00275DD2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				536268592953AF10002F6728 /* XCRemoteSwiftPackageReference "JGProgressHUD" */,
+				533C6F8329565D7E007D9E46 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				53785959295AF9B100E6CEC2 /* XCRemoteSwiftPackageReference "SkeletonView" */,
 			);
 			productRefGroup = 536FBE212952F83500275DD2 /* Products */;
 			projectDirPath = "";
@@ -332,6 +343,7 @@
 				536FBE6A2953106B00275DD2 /* LoginPresenter.swift in Sources */,
 				536FBE8B2953206F00275DD2 /* FeedPresenter.swift in Sources */,
 				536FBE5D295305DF00275DD2 /* Login_RegisterView.swift in Sources */,
+				533C6F8229564B3C007D9E46 /* Profile.swift in Sources */,
 				536FBE8D2953206F00275DD2 /* FeedProtocols.swift in Sources */,
 				536FBE6E2953106B00275DD2 /* LoginView.swift in Sources */,
 				536FBE7B2953109500275DD2 /* RegisterInteractor.swift in Sources */,
@@ -564,6 +576,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		533C6F8329565D7E007D9E46 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		536268592953AF10002F6728 /* XCRemoteSwiftPackageReference "JGProgressHUD" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/JonasGessner/JGProgressHUD";
@@ -580,9 +600,22 @@
 				minimumVersion = 9.0.0;
 			};
 		};
+		53785959295AF9B100E6CEC2 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Juanpe/SkeletonView.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		533C6F8429565D7E007D9E46 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 533C6F8329565D7E007D9E46 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
 		5362685A2953AF10002F6728 /* JGProgressHUD */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 536268592953AF10002F6728 /* XCRemoteSwiftPackageReference "JGProgressHUD" */;
@@ -602,6 +635,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 536FBE392952FACD00275DD2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		5378595A295AF9B200E6CEC2 /* SkeletonView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 53785959295AF9B100E6CEC2 /* XCRemoteSwiftPackageReference "SkeletonView" */;
+			productName = SkeletonView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

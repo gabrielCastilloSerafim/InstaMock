@@ -12,6 +12,10 @@ import UIKit
 protocol ProfileViewProtocol: AnyObject {
     // PRESENTER -> VIEW
     var presenter: ProfilePresenterProtocol? { get set }
+    
+    func populateView(profileObject: Profile)
+    func showSkeletonView()
+    func hideSkeletonView()
 }
 
 protocol ProfileWireFrameProtocol: AnyObject {
@@ -26,6 +30,7 @@ protocol ProfilePresenterProtocol: AnyObject {
     var view: ProfileViewProtocol? { get set }
     var interactor: ProfileInteractorInputProtocol? { get set }
     var wireFrame: ProfileWireFrameProtocol? { get set }
+    var imagesDataSource: [UIImage] { get set } 
     
     func viewDidLoad()
     func logOutTapped()
@@ -35,6 +40,7 @@ protocol ProfileInteractorOutputProtocol: AnyObject {
 // INTERACTOR -> PRESENTER
     
     func didLogUserOut()
+    func didReceiveProfileInfo(profileObject: Profile)
 }
 
 protocol ProfileInteractorInputProtocol: AnyObject {
@@ -44,6 +50,7 @@ protocol ProfileInteractorInputProtocol: AnyObject {
     var remoteDatamanager: ProfileRemoteDataManagerInputProtocol? { get set }
     
     func performUserLogOut()
+    func getUserInfo()
 }
 
 protocol ProfileDataManagerInputProtocol: AnyObject {
@@ -53,10 +60,14 @@ protocol ProfileDataManagerInputProtocol: AnyObject {
 protocol ProfileRemoteDataManagerInputProtocol: AnyObject {
     // INTERACTOR -> REMOTEDATAMANAGER
     var remoteRequestHandler: ProfileRemoteDataManagerOutputProtocol? { get set }
+    
+    func getUserInfoFromFirebase(for email: String)
 }
 
 protocol ProfileRemoteDataManagerOutputProtocol: AnyObject {
     // REMOTEDATAMANAGER -> INTERACTOR
+    
+    func gotProfileObject(profileObject: Profile)
 }
 
 protocol ProfileLocalDataManagerInputProtocol: AnyObject {

@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+import SDWebImage
+import SkeletonView
 
 class ProfileView: UIViewController {
 
@@ -22,6 +24,7 @@ class ProfileView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        presenter?.viewDidLoad()
         setupView()
     }
     
@@ -34,19 +37,21 @@ class ProfileView: UIViewController {
         view.addSubview(nameLabel)
         view.addSubview(collectionView)
         
-        profilePicture.backgroundColor = .black
         profilePicture.layer.cornerRadius = 45
         profilePicture.layer.masksToBounds = true
         profilePicture.translatesAutoresizingMaskIntoConstraints = false
+        profilePicture.isSkeletonable = true
         
-        nameLabel.text = "Gabriel Castillo Serafim"
         nameLabel.font = UIFont.systemFont(ofSize: 22, weight: .bold)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.isSkeletonable = true
+        nameLabel.linesCornerRadius = 7
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(ProfileCollectionViewCell.self, forCellWithReuseIdentifier: ProfileCollectionViewCell.id)
+        collectionView.isSkeletonable = true
         
         NSLayoutConstraint.activate([
             profilePicture.heightAnchor.constraint(equalToConstant: 90),
@@ -77,15 +82,23 @@ class ProfileView: UIViewController {
 
 //MARK: - UICollectionViewDataSource
 
-extension ProfileView: UICollectionViewDataSource {
+extension ProfileView: SkeletonCollectionViewDataSource {
+    
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
+        return ProfileCollectionViewCell.id
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 30
+        return presenter?.imagesDataSource.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCollectionViewCell.id, for: indexPath) as! ProfileCollectionViewCell
+        
+        let image = presenter?.imagesDataSource[indexPath.row]
+        
+        cell.postImage.image = image
         
         return cell
     }
@@ -118,4 +131,26 @@ extension ProfileView: UICollectionViewDelegateFlowLayout {
 
 extension ProfileView: ProfileViewProtocol {
     // TODO: implement view output methods
+    
+    func populateView(profileObject: Profile) {
+        DispatchQueue.main.async {
+            self.nameLabel.text = profileObject.name
+            self.profilePicture.sd_setImage(with: URL(string: profileObject.profileImageURL))
+            self.collectionView.reloadData()
+        }
+    }
+    
+    func showSkeletonView() {
+        DispatchQueue.main.async {
+            self.profilePicture.showAnimatedGradientSkeleton()
+            self.nameLabel.showAnimatedGradientSkeleton()
+            self.collectionView.showAnimatedGradientSkeleton()
+        }
+    }
+    
+    func hideSkeletonView() {
+        DispatchQueue.main.async {
+            self.view.hideSkeleton()
+        }
+    }
 }

@@ -23,14 +23,18 @@ class ProfileCollectionViewCell: UICollectionViewCell {
     
     private func setupContentView() {
         
+        //Content View
         contentView.addSubview(postImage)
+        isSkeletonable = true
+        
+        //PostImage
+        postImage.isSkeletonable = true
         postImage.frame = contentView.bounds
     }
     
     var postImage: UIImageView = {
        
         let image = UIImageView()
-        image.backgroundColor = .red
         image.clipsToBounds = true
         
         return image

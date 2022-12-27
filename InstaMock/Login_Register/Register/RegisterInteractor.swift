@@ -25,8 +25,7 @@ class RegisterInteractor: RegisterInteractorInputProtocol {
             
             self?.localDatamanager?.updateUserDefaultsLogInStatus()
             self?.localDatamanager?.saveUserDataToDefaults(name: name, Email: email)
-            self?.remoteDatamanager?.createUserNodeInRemoteDB(with: name, email)
-            self?.remoteDatamanager?.uploadProfilePictureToFireStore(image: profileImage, email: email)
+            self?.remoteDatamanager?.createUserInFirebase(image: profileImage, email: email, name: name)
         }
     }
 }

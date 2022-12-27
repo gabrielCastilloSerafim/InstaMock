@@ -28,9 +28,18 @@ class ProfileInteractor: ProfileInteractorInputProtocol {
         presenter?.didLogUserOut()
     }
     
-
+    func getUserInfo() {
+        
+        guard let userFormattedEmail = UserDefaults.standard.string(forKey: "email")?.formatted else { print("Error retrieving user email from user defaults"); return}
+        
+        remoteDatamanager?.getUserInfoFromFirebase(for: userFormattedEmail)
+    }
 }
 
 extension ProfileInteractor: ProfileRemoteDataManagerOutputProtocol {
     // TODO: Implement use case methods
+    
+    func gotProfileObject(profileObject: Profile) {
+        presenter?.didReceiveProfileInfo(profileObject: profileObject)
+    }
 }

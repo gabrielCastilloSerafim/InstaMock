@@ -65,8 +65,7 @@ protocol RegisterRemoteDataManagerInputProtocol: AnyObject {
     // INTERACTOR -> REMOTEDATAMANAGER
     var remoteRequestHandler: RegisterRemoteDataManagerOutputProtocol? { get set }
     
-    func createUserNodeInRemoteDB(with name: String, _ email: String)
-    func uploadProfilePictureToFireStore(image: UIImage, email: String)
+    func createUserInFirebase(image: UIImage, email: String, name:String)
 }
 
 protocol RegisterRemoteDataManagerOutputProtocol: AnyObject {
