@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import JGProgressHUD
 
-class FeedView: UIViewController {
+class FeedView: UIViewController, FeedTableViewCellDelegate {
 
     // MARK: Properties
     var presenter: FeedPresenterProtocol?
@@ -39,6 +39,8 @@ class FeedView: UIViewController {
         tableView.dataSource = self
         tableView.register(FeedTableViewCell.self, forCellReuseIdentifier: FeedTableViewCell.feedCellID)
         tableView.separatorStyle = .none
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.allowsSelection = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -52,6 +54,16 @@ class FeedView: UIViewController {
     @objc private func addButtonTapped() {
         
         presenter?.addPostTapeed()
+    }
+    
+    func likeButtonTapped(numberOfLikes: Int) {
+        print(numberOfLikes)
+    }
+    
+    func expandTextButtonTapped() {
+        
+        tableView.beginUpdates()
+        tableView.endUpdates()
     }
 }
 
@@ -67,6 +79,7 @@ extension FeedView: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableViewCell.feedCellID, for: indexPath) as! FeedTableViewCell
         
+        cell.delegate = self
         cell.nameLabel.text = "Gabriel Castillo Serafim"
         
         return cell
