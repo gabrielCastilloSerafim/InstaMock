@@ -51,4 +51,23 @@ class FeedRemoteDataManager:FeedRemoteDataManagerInputProtocol {
         }
     }
     
+    func updatePostLikesInDatabase(postID: String, isDislike: Bool) {
+        
+        database.child("posts/\(postID)/numberOfLikes").getData { [weak self] error, snapshot in
+            guard var numberOfLikes = snapshot?.value as? Int else { print("Error getting number of likes snapshot value"); return }
+            
+            //Add or subtract one to the number of likes that the post already have and upload the updated value to the database
+            if isDislike == true {
+                numberOfLikes -= 1
+            } else {
+                numberOfLikes += 1
+            }
+            
+            self?.database.child("posts/\(postID)/numberOfLikes").setValue(numberOfLikes)
+        }
+    }
+    
+    
+    
+    
 }

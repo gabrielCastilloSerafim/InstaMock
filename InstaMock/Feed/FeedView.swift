@@ -38,6 +38,8 @@ class FeedView: UIViewController, FeedTableViewCellDelegate {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.allowsSelection = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -47,13 +49,19 @@ class FeedView: UIViewController, FeedTableViewCellDelegate {
         ])
     }
     
+    @objc private func didPullToRefresh() {
+        
+        presenter?.userPulledToRefresh()
+    }
+    
     @objc private func addButtonTapped() {
         
         presenter?.addPostTapeed()
     }
     
-    func likeButtonTapped(numberOfLikes: Int) {
+    func likeButtonTapped(buttonTag: Int, isDislike: Bool) {
         
+        presenter?.likeTapped(forObjectAtIndex: buttonTag, isDislike: isDislike)
     }
     
     func expandTextButtonTapped() {
@@ -83,6 +91,9 @@ extension FeedView: UITableViewDataSource {
         cell.numberOfLikesLabel.text = String(describing: postObject!.numberOfLikes)
         cell.postImage.sd_setImage(with: URL(string: (postObject?.postImageURL)!))
         cell.profileImage.sd_setImage(with: URL(string: (postObject?.creatorProfilePictureURL)!))
+        cell.likeButton.tag = indexPath.row
+        cell.isLiked = false
+        cell.likeButton.setImage(UIImage(systemName: "hand.thumbsup"), for: .normal)
         
         return cell
     }
@@ -92,7 +103,14 @@ extension FeedView: FeedViewProtocol {
     // TODO: implement view output methods
     
     func reloadTableView() {
-        tableView.reloadData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.tableView.refreshControl?.endRefreshing()
+        }
     }
+    
+    
 }
 

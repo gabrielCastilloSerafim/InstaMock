@@ -14,12 +14,14 @@ class CreatePostPresenter  {
     weak var view: CreatePostViewProtocol?
     var interactor: CreatePostInteractorInputProtocol?
     var wireFrame: CreatePostWireFrameProtocol?
+    var feedDelegate: CreateNewPostDelegate?
     
 }
 
 extension CreatePostPresenter: CreatePostPresenterProtocol {
     // TODO: implement presenter methods
     func viewDidLoad() {
+        
     }
     
     func imageGotTapped() {
@@ -58,6 +60,7 @@ extension CreatePostPresenter: CreatePostInteractorOutputProtocol {
     // TODO: implement interactor output methods
     
     func dismissView() {
+        feedDelegate?.didCreatePost()
         wireFrame?.dismissTheCreatePostsView(fromVC: view as! CreatePostView)
         view?.hideSpinner()
     }

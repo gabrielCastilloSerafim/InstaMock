@@ -11,7 +11,7 @@ import UIKit
 
 class CreatePostWireFrame: CreatePostWireFrameProtocol {
     
-    class func createCreatePostModule() -> UIViewController {
+    class func createCreatePostModule(feedDelegate: FeedPresenter) -> UIViewController {
         
         let view = CreatePostView()
         let presenter: CreatePostPresenterProtocol & CreatePostInteractorOutputProtocol = CreatePostPresenter()
@@ -21,6 +21,7 @@ class CreatePostWireFrame: CreatePostWireFrameProtocol {
         let wireFrame: CreatePostWireFrameProtocol = CreatePostWireFrame()
         
         view.presenter = presenter
+        presenter.feedDelegate = feedDelegate
         presenter.view = view
         presenter.wireFrame = wireFrame
         presenter.interactor = interactor

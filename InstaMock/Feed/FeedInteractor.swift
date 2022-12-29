@@ -19,6 +19,9 @@ class FeedInteractor: FeedInteractorInputProtocol {
         remoteDatamanager?.bringAllPostsFromDatabase()
     }
     
+    func addLikeToPost(postID: String, isDislike: Bool) {
+        remoteDatamanager?.updatePostLikesInDatabase(postID: postID, isDislike: isDislike)
+    }
     
 }
 

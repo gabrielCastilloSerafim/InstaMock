@@ -8,7 +8,7 @@
 import UIKit
 
 protocol FeedTableViewCellDelegate {
-    func likeButtonTapped(numberOfLikes: Int)
+    func likeButtonTapped(buttonTag: Int, isDislike: Bool)
     func expandTextButtonTapped()
 }
 
@@ -109,9 +109,8 @@ class FeedTableViewCell: UITableViewCell {
             likeButton.setImage(UIImage(systemName: "hand.thumbsup"), for: .normal)
         }
         
+        delegate?.likeButtonTapped(buttonTag: likeButton.tag, isDislike: isLiked)
         isLiked = !isLiked
-        
-        delegate?.likeButtonTapped(numberOfLikes: Int(numberOfLikesLabel.text!)!)
     }
     
     @objc private func didTapExpandButton() {

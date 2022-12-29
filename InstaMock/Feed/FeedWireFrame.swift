@@ -36,9 +36,9 @@ class FeedWireFrame: FeedWireFrameProtocol {
         return navController
     }
     
-    func showCreatePostView(fromVC: FeedView) {
+    func showCreatePostView(fromVC: FeedView, feedDelegate: FeedPresenter) {
         
-        let createViewVC = CreatePostWireFrame.createCreatePostModule()
+        let createViewVC = CreatePostWireFrame.createCreatePostModule(feedDelegate: feedDelegate)
         
         fromVC.present(createViewVC, animated: true)
     }

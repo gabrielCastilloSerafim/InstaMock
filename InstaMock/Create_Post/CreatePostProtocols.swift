@@ -25,7 +25,7 @@ protocol CreatePostViewProtocol: AnyObject {
 
 protocol CreatePostWireFrameProtocol: AnyObject {
     // PRESENTER -> WIREFRAME
-    static func createCreatePostModule() -> UIViewController
+    static func createCreatePostModule(feedDelegate: FeedPresenter) -> UIViewController
     
     func dismissTheCreatePostsView(fromVC: CreatePostView)
 }
@@ -35,6 +35,7 @@ protocol CreatePostPresenterProtocol: AnyObject {
     var view: CreatePostViewProtocol? { get set }
     var interactor: CreatePostInteractorInputProtocol? { get set }
     var wireFrame: CreatePostWireFrameProtocol? { get set }
+    var feedDelegate: CreateNewPostDelegate? { get set }
     
     func viewDidLoad()
     func imageGotTapped()

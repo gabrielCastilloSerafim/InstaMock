@@ -20,7 +20,7 @@ protocol FeedWireFrameProtocol: AnyObject {
     // PRESENTER -> WIREFRAME
     static func createFeedModule() -> UIViewController
     
-    func showCreatePostView(fromVC: FeedView)
+    func showCreatePostView(fromVC: FeedView, feedDelegate: FeedPresenter)
 }
 
 protocol FeedPresenterProtocol: AnyObject {
@@ -32,6 +32,8 @@ protocol FeedPresenterProtocol: AnyObject {
     
     func viewDidLoad()
     func addPostTapeed()
+    func userPulledToRefresh()
+    func likeTapped(forObjectAtIndex: Int, isDislike: Bool)
 }
 
 protocol FeedInteractorOutputProtocol: AnyObject {
@@ -47,6 +49,7 @@ protocol FeedInteractorInputProtocol: AnyObject {
     var remoteDatamanager: FeedRemoteDataManagerInputProtocol? { get set }
     
     func getPosts()
+    func addLikeToPost(postID: String, isDislike: Bool)
 }
 
 protocol FeedDataManagerInputProtocol: AnyObject {
@@ -58,6 +61,7 @@ protocol FeedRemoteDataManagerInputProtocol: AnyObject {
     var remoteRequestHandler: FeedRemoteDataManagerOutputProtocol? { get set }
     
     func bringAllPostsFromDatabase()
+    func updatePostLikesInDatabase(postID: String, isDislike: Bool)
 }
 
 protocol FeedRemoteDataManagerOutputProtocol: AnyObject {
@@ -68,4 +72,10 @@ protocol FeedRemoteDataManagerOutputProtocol: AnyObject {
 
 protocol FeedLocalDataManagerInputProtocol: AnyObject {
     // INTERACTOR -> LOCALDATAMANAGER
+}
+
+protocol CreateNewPostDelegate: AnyObject {
+    // CREATEPOST -> FEEDPRESENTER
+    
+    func didCreatePost()
 }

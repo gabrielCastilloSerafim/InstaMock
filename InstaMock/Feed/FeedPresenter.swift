@@ -8,13 +8,19 @@
 
 import UIKit
 
-class FeedPresenter  {
+class FeedPresenter: CreateNewPostDelegate  {
     
     // MARK: Properties
     weak var view: FeedViewProtocol?
     var interactor: FeedInteractorInputProtocol?
     var wireFrame: FeedWireFrameProtocol?
     var postsDataSource = [Post]()
+    
+    //Gets called in the create view thru protocol deleagte when post gets done uploading
+    func didCreatePost() {
+        interactor?.getPosts()
+    }
+    
     
 }
 
@@ -26,7 +32,16 @@ extension FeedPresenter: FeedPresenterProtocol {
     }
     
     func addPostTapeed() {
-        wireFrame?.showCreatePostView(fromVC: view as! FeedView)
+        wireFrame?.showCreatePostView(fromVC: view as! FeedView, feedDelegate: self)
+    }
+    
+    func userPulledToRefresh() {
+        interactor?.getPosts()
+    }
+    
+    func likeTapped(forObjectAtIndex: Int, isDislike: Bool) {
+        let postID = postsDataSource[forObjectAtIndex].postID
+        interactor?.addLikeToPost(postID: postID, isDislike: isDislike)
     }
     
 }
