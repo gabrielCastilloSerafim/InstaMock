@@ -6,41 +6,49 @@
 //  
 //
 
-import UIKit
+import Foundation
 import FirebaseDatabase
-import FirebaseStorage
 
 class FeedRemoteDataManager:FeedRemoteDataManagerInputProtocol {
     
     var remoteRequestHandler: FeedRemoteDataManagerOutputProtocol?
     private let database = FirebaseDatabase.Database.database().reference()
-    private let storage = FirebaseStorage.Storage.storage().reference()
     
-    func uploadPost(image: UIImage, email: String, name: String, postID: String) {
+    func bringAllPostsFromDatabase() {
         
-        //Upload image to fireStore
-        guard let imageData = image.pngData() else { print("Error getting post image png data"); return }
-        storage.child("images/\(postID).png").putData(imageData) { [weak self] _ in
+        database.child("posts").getData { [weak self] error, snapshot in
+            guard let snapshotDicts = snapshot?.value as? [String: [String: Any]] else { print("Error getting posts snapshotDict"); return }
             
-            //Get uploaded image's download url
-            self?.storage.child("images/\(postID).png").downloadURL { url, error in
-                guard let url = url?.absoluteString else { print("error getting post image download URL"); return }
+            var postObjectsArray = [Post]()
+            
+            for dict in snapshotDicts {
+                guard let creationTimeSince1970 = dict.value["creationTimeSince1970"] as? Double,
+                      let creatorEmail = dict.value["creatorEmail"] as? String,
+                      let creatorName = dict.value["creatorName"] as? String,
+                      let numberOfLikes = dict.value["numberOfLikes"] as? Int,
+                      let postCaption = dict.value["postCaption"] as? String,
+                      let postID = dict.value["postID"] as? String,
+                      let postImageID = dict.value["postImageID"] as? String,
+                      let postImageURL = dict.value["postImageURL"] as? String,
+                      let creatorProfilePictureURL = dict.value["creatorProfilePictureURL"] as? String
+                else { print("Error converting post object to dictionary"); return }
                 
-                //Write post info to fireStore database posts node
-                let postDict = ["postID":postID, "name":name, "email":email, "imageDownloadURL":url]
-                self?.database.child("posts/\(postID)").setValue(postDict) { error, _ in
-                    guard error == nil else { print("Error saving post info to database"); return }
-                    
-                    //Write the post id to the user's posts node
-                    let postIdDict = ["\(postID)":postID]
-                    self?.database.child("\(email.formatted)/posts").updateChildValues(postIdDict) { error, _ in
-                        
-                        self?.remoteRequestHandler?.finishedUploadingPost()
-                    }
-                }
+                let postObject = Post(creatorName: creatorName,
+                                      creatorEmail: creatorEmail,
+                                      creationTimeSince1970: creationTimeSince1970,
+                                      postID: postID,
+                                      postImageID: postImageID,
+                                      postImageURL: postImageURL,
+                                      postImage: nil,
+                                      postCaption: postCaption,
+                                      numberOfLikes: numberOfLikes,
+                                      creatorProfilePictureURL: creatorProfilePictureURL)
+                
+                postObjectsArray.append(postObject)
             }
+            let sortedPostObjectsArray = postObjectsArray.sorted { $0.creationTimeSince1970 > $1.creationTimeSince1970 }
+            self?.remoteRequestHandler?.successfullyGotPosts(postObjects: sortedPostObjectsArray)
         }
     }
-    
     
 }

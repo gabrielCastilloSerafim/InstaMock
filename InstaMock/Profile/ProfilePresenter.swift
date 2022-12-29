@@ -42,25 +42,35 @@ extension ProfilePresenter: ProfileInteractorOutputProtocol {
     
     func didReceiveProfileInfo(profileObject: Profile) {
         
-        let profileImagesNumber = profileObject.postsImageURL.count
-        var counter: Int = 0 {
-            didSet {
-                if counter == profileImagesNumber {
-                    view?.hideSkeletonView()
-                    view?.populateView(profileObject: profileObject)
+        //Check if the received object has a postsImageURL array if it does, download images and populate view
+        if let postsImageURL = profileObject.postsImageURL {
+            let profileImagesNumber = postsImageURL.count
+            var counter: Int = 0 {
+                didSet {
+                    if counter == profileImagesNumber {
+                        view?.hideSkeletonView()
+                        view?.populateViewWithPostImages(profileObject: profileObject)
+                    }
                 }
             }
+            
+            for URLWithTimeObject in postsImageURL {
+                let url = URL(string: URLWithTimeObject.url)!
+                URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
+                    guard let data = data else { print("Error Downloading profile image"); return }
+                    guard let image = UIImage(data: data) else { print("Error parsing image"); return }
+                    self?.imagesDataSource.append(image)
+                    counter += 1
+                }.resume()
+            }
+        } else {
+            //User has no posts yet so just populate view with user name and user profile picture
+            view?.hideSkeletonView()
+            view?.populateViewWithoutPostImages(profileObject: profileObject)
         }
-        
-        for url in profileObject.postsImageURL {
-            let url = URL(string: url)!
-            URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
-                guard let data = data else { print("Error Downloading profile image"); return }
-                guard let image = UIImage(data: data) else { print("Error parsing image"); return }
-                self?.imagesDataSource.append(image)
-                counter += 1
-            }.resume()
-        }
-        
     }
+    
+    
+    
+    
 }

@@ -10,6 +10,11 @@ import Foundation
 struct Profile {
     
     let name: String
-    let postsImageURL: [String]
+    var postsImageURL: [PostURLWithTime]?
     let profileImageURL: String
+}
+
+struct PostURLWithTime {
+    let url: String
+    let time: Double
 }

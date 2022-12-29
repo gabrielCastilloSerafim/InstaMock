@@ -18,6 +18,7 @@ class ProfileView: UIViewController {
     private let profilePicture = UIImageView()
     private let nameLabel = UILabel()
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private let noPostsLabel = UILabel()
 
     // MARK: Lifecycle
 
@@ -36,6 +37,7 @@ class ProfileView: UIViewController {
         view.addSubview(profilePicture)
         view.addSubview(nameLabel)
         view.addSubview(collectionView)
+        view.addSubview(noPostsLabel)
         
         profilePicture.layer.cornerRadius = 45
         profilePicture.layer.masksToBounds = true
@@ -52,6 +54,12 @@ class ProfileView: UIViewController {
         collectionView.delegate = self
         collectionView.register(ProfileCollectionViewCell.self, forCellWithReuseIdentifier: ProfileCollectionViewCell.id)
         collectionView.isSkeletonable = true
+        
+        noPostsLabel.text = "No Posts"
+        noPostsLabel.textColor = .lightGray
+        noPostsLabel.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+        noPostsLabel.translatesAutoresizingMaskIntoConstraints = false
+        noPostsLabel.isHidden = true
         
         NSLayoutConstraint.activate([
             profilePicture.heightAnchor.constraint(equalToConstant: 90),
@@ -71,6 +79,11 @@ class ProfileView: UIViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            noPostsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            noPostsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 100)
         ])
     }
     
@@ -132,11 +145,20 @@ extension ProfileView: UICollectionViewDelegateFlowLayout {
 extension ProfileView: ProfileViewProtocol {
     // TODO: implement view output methods
     
-    func populateView(profileObject: Profile) {
+    func populateViewWithPostImages(profileObject: Profile) {
         DispatchQueue.main.async {
             self.nameLabel.text = profileObject.name
             self.profilePicture.sd_setImage(with: URL(string: profileObject.profileImageURL))
             self.collectionView.reloadData()
+            self.noPostsLabel.isHidden = true
+        }
+    }
+    
+    func populateViewWithoutPostImages(profileObject: Profile) {
+        DispatchQueue.main.async {
+            self.nameLabel.text = profileObject.name
+            self.profilePicture.sd_setImage(with: URL(string: profileObject.profileImageURL))
+            self.noPostsLabel.isHidden = false
         }
     }
     

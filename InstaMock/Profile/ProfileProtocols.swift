@@ -13,7 +13,8 @@ protocol ProfileViewProtocol: AnyObject {
     // PRESENTER -> VIEW
     var presenter: ProfilePresenterProtocol? { get set }
     
-    func populateView(profileObject: Profile)
+    func populateViewWithPostImages(profileObject: Profile)
+    func populateViewWithoutPostImages(profileObject: Profile)
     func showSkeletonView()
     func hideSkeletonView()
 }

@@ -14,36 +14,29 @@ class FeedPresenter  {
     weak var view: FeedViewProtocol?
     var interactor: FeedInteractorInputProtocol?
     var wireFrame: FeedWireFrameProtocol?
+    var postsDataSource = [Post]()
     
 }
 
 extension FeedPresenter: FeedPresenterProtocol {
     // TODO: implement presenter methods
+    
     func viewDidLoad() {
+        interactor?.getPosts()
     }
     
     func addPostTapeed() {
-        view?.showImagePicker()
+        wireFrame?.showCreatePostView(fromVC: view as! FeedView)
     }
     
-    func userDidSelectImage(image: UIImage?) {
-        
-        guard let image = image else { print("Error in selected image"); return }
-        
-        interactor?.createPost(with: image)
-        view?.showSpinner()
-    }
-    
-    func userDidCancelImageSelection() {
-        view?.dismissImagePicker()
-    }
 }
 
 extension FeedPresenter: FeedInteractorOutputProtocol {
     // TODO: implement interactor output methods
     
-    func uploadedPost() {
-        view?.dismissSpinner()
-        view?.dismissImagePicker()
+    func didGetPosts(postsObjects: [Post]) {
+        postsDataSource = postsObjects
+        view?.reloadTableView()
     }
+    
 }

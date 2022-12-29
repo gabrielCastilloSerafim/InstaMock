@@ -8,15 +8,13 @@
 
 import Foundation
 import UIKit
-import JGProgressHUD
+import SDWebImage
 
 class FeedView: UIViewController, FeedTableViewCellDelegate {
 
     // MARK: Properties
     var presenter: FeedPresenterProtocol?
     private let tableView = UITableView()
-    private let imagePicker = UIImagePickerController()
-    private let spinner = JGProgressHUD(style: .dark)
 
     // MARK: Lifecycle
 
@@ -24,6 +22,7 @@ class FeedView: UIViewController, FeedTableViewCellDelegate {
         super.viewDidLoad()
         
         setupView()
+        presenter?.viewDidLoad()
     }
     
     private func setupView() {
@@ -32,9 +31,6 @@ class FeedView: UIViewController, FeedTableViewCellDelegate {
         title = "Feed"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addButtonTapped))
         view.addSubview(tableView)
-        
-        imagePicker.delegate = self
-        imagePicker.allowsEditing = true
         
         tableView.dataSource = self
         tableView.register(FeedTableViewCell.self, forCellReuseIdentifier: FeedTableViewCell.feedCellID)
@@ -57,7 +53,7 @@ class FeedView: UIViewController, FeedTableViewCellDelegate {
     }
     
     func likeButtonTapped(numberOfLikes: Int) {
-        print(numberOfLikes)
+        
     }
     
     func expandTextButtonTapped() {
@@ -72,57 +68,31 @@ class FeedView: UIViewController, FeedTableViewCellDelegate {
 extension FeedView: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return presenter?.postsDataSource.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableViewCell.feedCellID, for: indexPath) as! FeedTableViewCell
         
+        let postObject = presenter?.postsDataSource[indexPath.row]
+        
         cell.delegate = self
-        cell.nameLabel.text = "Gabriel Castillo Serafim"
+        cell.nameLabel.text = postObject?.creatorName
+        cell.captionLabel.text = postObject?.postCaption
+        cell.numberOfLikesLabel.text = String(describing: postObject!.numberOfLikes)
+        cell.postImage.sd_setImage(with: URL(string: (postObject?.postImageURL)!))
+        cell.profileImage.sd_setImage(with: URL(string: (postObject?.creatorProfilePictureURL)!))
         
         return cell
-    }
-}
-
-//MARK: - UIImagePickerControllerDelegate & UINavigationControllerDelegate
-
-extension FeedView: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        let image = info[.editedImage] as? UIImage
-        
-        presenter?.userDidSelectImage(image: image)
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        presenter?.userDidCancelImageSelection()
     }
 }
 
 extension FeedView: FeedViewProtocol {
     // TODO: implement view output methods
     
-    func showImagePicker() {
-        self.present(imagePicker, animated: true)
-    }
-    
-    func dismissImagePicker() {
-        imagePicker.dismiss(animated: true)
-    }
-    
-    func showSpinner() {
-        DispatchQueue.main.async {
-            self.spinner.show(in: self.imagePicker.view, animated: true)
-        }
-    }
-    
-    func dismissSpinner() {
-        DispatchQueue.main.async {
-            self.spinner.dismiss(animated: true)
-        }
+    func reloadTableView() {
+        tableView.reloadData()
     }
 }
 

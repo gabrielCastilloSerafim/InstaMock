@@ -13,15 +13,14 @@ protocol FeedViewProtocol: AnyObject {
     // PRESENTER -> VIEW
     var presenter: FeedPresenterProtocol? { get set }
     
-    func showImagePicker()
-    func dismissImagePicker()
-    func showSpinner()
-    func dismissSpinner()
+    func reloadTableView()
 }
 
 protocol FeedWireFrameProtocol: AnyObject {
     // PRESENTER -> WIREFRAME
     static func createFeedModule() -> UIViewController
+    
+    func showCreatePostView(fromVC: FeedView)
 }
 
 protocol FeedPresenterProtocol: AnyObject {
@@ -29,17 +28,16 @@ protocol FeedPresenterProtocol: AnyObject {
     var view: FeedViewProtocol? { get set }
     var interactor: FeedInteractorInputProtocol? { get set }
     var wireFrame: FeedWireFrameProtocol? { get set }
+    var postsDataSource: [Post] { get set }
     
     func viewDidLoad()
     func addPostTapeed()
-    func userDidSelectImage(image: UIImage?)
-    func userDidCancelImageSelection()
 }
 
 protocol FeedInteractorOutputProtocol: AnyObject {
 // INTERACTOR -> PRESENTER
     
-    func uploadedPost()
+    func didGetPosts(postsObjects: [Post])
 }
 
 protocol FeedInteractorInputProtocol: AnyObject {
@@ -48,7 +46,7 @@ protocol FeedInteractorInputProtocol: AnyObject {
     var localDatamanager: FeedLocalDataManagerInputProtocol? { get set }
     var remoteDatamanager: FeedRemoteDataManagerInputProtocol? { get set }
     
-    func createPost(with image:UIImage)
+    func getPosts()
 }
 
 protocol FeedDataManagerInputProtocol: AnyObject {
@@ -59,13 +57,13 @@ protocol FeedRemoteDataManagerInputProtocol: AnyObject {
     // INTERACTOR -> REMOTEDATAMANAGER
     var remoteRequestHandler: FeedRemoteDataManagerOutputProtocol? { get set }
     
-    func uploadPost(image: UIImage, email: String, name: String, postID: String)
+    func bringAllPostsFromDatabase()
 }
 
 protocol FeedRemoteDataManagerOutputProtocol: AnyObject {
     // REMOTEDATAMANAGER -> INTERACTOR
     
-    func finishedUploadingPost()
+    func successfullyGotPosts(postObjects: [Post])
 }
 
 protocol FeedLocalDataManagerInputProtocol: AnyObject {
