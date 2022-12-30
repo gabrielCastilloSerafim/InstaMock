@@ -28,6 +28,7 @@ extension FeedPresenter: FeedPresenterProtocol {
     // TODO: implement presenter methods
     
     func viewDidLoad() {
+        view?.showSkeletonView()
         interactor?.getPosts()
     }
     
@@ -52,6 +53,7 @@ extension FeedPresenter: FeedInteractorOutputProtocol {
     func didGetPosts(postsObjects: [Post]) {
         postsDataSource = postsObjects
         view?.reloadTableView()
+        view?.hideSkeletonView()
     }
     
 }
