@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SkeletonView
 
 protocol FeedTableViewCellDelegate {
     func likeButtonTapped(buttonTag: Int, isDislike: Bool)
@@ -38,6 +39,8 @@ class FeedTableViewCell: UITableViewCell {
         contentView.addSubview(likesLabel)
         contentView.addSubview(expandCaptionButton)
         contentView.addSubview(captionLabel)
+        //Make contentView skeletonable
+        isSkeletonable = true
         
         likeButton.addTarget(self, action: #selector(didTapLikeButton), for: .touchUpInside)
         expandCaptionButton.addTarget(self, action: #selector(didTapExpandButton), for: .touchUpInside)
@@ -128,6 +131,7 @@ class FeedTableViewCell: UITableViewCell {
         image.layer.cornerRadius = 20
         image.layer.masksToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
+        image.isSkeletonable = true
         
         return image
     }()
@@ -137,6 +141,7 @@ class FeedTableViewCell: UITableViewCell {
         let image = UIImageView()
         image.backgroundColor = .lightGray
         image.translatesAutoresizingMaskIntoConstraints = false
+        image.isSkeletonable = true
         
         return image
     }()
@@ -146,6 +151,8 @@ class FeedTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.isSkeletonable = true
+        label.linesCornerRadius = 7
         
         return label
     }()
@@ -159,6 +166,8 @@ class FeedTableViewCell: UITableViewCell {
         button.contentHorizontalAlignment = .fill
         button.tintColor = .systemGreen
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.isSkeletonable = true
+        button.isHiddenWhenSkeletonIsActive = true
         
         return button
     }()
@@ -170,6 +179,8 @@ class FeedTableViewCell: UITableViewCell {
         label.font = UIFont.systemFont(ofSize: 13, weight: .medium)
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.isSkeletonable = true
+        label.isHiddenWhenSkeletonIsActive = true
         
         return label
     }()
@@ -181,6 +192,8 @@ class FeedTableViewCell: UITableViewCell {
         label.font = UIFont.systemFont(ofSize: 13, weight: .bold)
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.isSkeletonable = true
+        label.isHiddenWhenSkeletonIsActive = true
         
         return label
     }()
@@ -192,6 +205,8 @@ class FeedTableViewCell: UITableViewCell {
         label.numberOfLines = 1
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.isSkeletonable = true
+        label.isHiddenWhenSkeletonIsActive = true
         
         return label
     }()
@@ -203,6 +218,8 @@ class FeedTableViewCell: UITableViewCell {
         button.setTitleColor(.lightGray, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .bold)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.isSkeletonable = true
+        button.isHiddenWhenSkeletonIsActive = true
         
         return button
     }()

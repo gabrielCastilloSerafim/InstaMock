@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import SDWebImage
+import SkeletonView
 
 class FeedView: UIViewController, FeedTableViewCellDelegate {
 
@@ -32,10 +33,12 @@ class FeedView: UIViewController, FeedTableViewCellDelegate {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addButtonTapped))
         view.addSubview(tableView)
         
+        tableView.isSkeletonable = true
         tableView.dataSource = self
         tableView.register(FeedTableViewCell.self, forCellReuseIdentifier: FeedTableViewCell.feedCellID)
         tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 470
         tableView.allowsSelection = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.refreshControl = UIRefreshControl()
@@ -73,7 +76,11 @@ class FeedView: UIViewController, FeedTableViewCellDelegate {
 
 //MARK: - TableView DataSource
 
-extension FeedView: UITableViewDataSource {
+extension FeedView: SkeletonTableViewDataSource {
+    
+    func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        return FeedTableViewCell.feedCellID
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return presenter?.postsDataSource.count ?? 0
@@ -111,6 +118,17 @@ extension FeedView: FeedViewProtocol {
         }
     }
     
+    func showSkeletonView() {
+        DispatchQueue.main.async {
+            self.tableView.showAnimatedGradientSkeleton()
+        }
+    }
+    
+    func hideSkeletonView() {
+        DispatchQueue.main.async {
+            self.tableView.hideSkeleton(transition: .crossDissolve(0.8))
+        }
+    }
     
 }
 

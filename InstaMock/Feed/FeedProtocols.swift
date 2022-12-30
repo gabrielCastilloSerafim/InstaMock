@@ -14,6 +14,8 @@ protocol FeedViewProtocol: AnyObject {
     var presenter: FeedPresenterProtocol? { get set }
     
     func reloadTableView()
+    func showSkeletonView()
+    func hideSkeletonView()
 }
 
 protocol FeedWireFrameProtocol: AnyObject {
