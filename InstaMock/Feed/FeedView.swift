@@ -52,6 +52,8 @@ class FeedView: UIViewController, FeedTableViewCellDelegate {
         ])
     }
     
+    //This is a bug fix
+    
     @objc private func didPullToRefresh() {
         
         presenter?.userPulledToRefresh()
